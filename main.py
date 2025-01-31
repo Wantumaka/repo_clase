@@ -1,12 +1,15 @@
 import seaborn as sns
 import streamlit as st
-import sklearn as sk
+
 import pandas as pd
-import plotly.express as px
+#import plotly.express as px
 
 st.set_page_config(page_title="Iris Dataset", page_icon="🌺", layout="wide")
 
+import geocoder
 
+g = geocoder.ip('me')
+st.write(g.latlng) 
 
 
 
@@ -44,7 +47,15 @@ def main():
     bot2.button("Predicción", help="Botón para predecir la especie de la flor", icon="🌺")
 
 
+    with open("model.pkl", "rb") as file:
+        model = pkl.load(file)
 
+    # Interfaz en Streamlit para realizar predicciones
+    if st.button("Predict"):
+        # Valores de entrada (deben estar definidos previamente)
+        x1, x2, x3, x4 = 1.0, 2.0, 3.0, 4.0  # Reemplazar con valores reales o dinámicos
+        prediction = model.predict([[x1, x2, x3, x4]])[0]
+        st.success(prediction)
 
 if __name__ == "__main__":
     main()
